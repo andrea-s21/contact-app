@@ -1,18 +1,14 @@
 import { Link } from 'react-router-dom';
 
-export default function ContactCard({ contact, setContacts }) {
+export default function ContactCard({ contact }) {
 
-    // function handleShowContact(contact, id) {
-    //     setContacts(contact, id)
-    // }
     return (
         <div>
-            <Link to={`/edit/${contact.first}`}>
-            <p>{contact.first}</p></Link>
-            <p>{contact.last}</p>
-            <p>{contact.phone}</p>
-            <p>{contact.email}</p>
-            {/* <button type="button" onClick={() => handleShowContact(contact.id)}>Update Contact</button> */}
+            <p>First Name: {contact.first}</p>
+            <p> Last Name: {contact.last}</p>
+            <p>Phone: {contact.phone}</p>
+            <p> Email: {contact.email}</p>
+            <Link to={`/edit/${contact.id}`}>Edit Contact</Link>
             <hr />
         </div>
     );
