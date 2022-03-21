@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 export default function AddContactForm({ addContact }) {
   const [newContact, setNewContact] = useState({
@@ -47,59 +46,60 @@ export default function AddContactForm({ addContact }) {
     navigate('/');
   }
 
+  const formRef = useRef();
   return (
-    <Box
-      component="form"
+    <ValidatorForm
+      data-testid="form-add"
+      ref={formRef}
       className="edit-form" 
       onSubmit={handleAddContact}
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: '35ch' },
-      }}
-      noValidate
-      autoComplete="off"
     >
         <div>
-          <TextField
+          <TextValidator
             name="first"
             label="First Name:"
             value={newContact.first}
             onChange={handleChangeState}
             required
-            aria-label="First Name:"
             aria-required="true"
+            validators={['required']}
+            errorMessages={['this field is required']}
           />
         </div>
         <div>
-          <TextField
+          <TextValidator
             name="last"
             label="Last Name:"
             value={newContact.last}
             onChange={handleChangeState}
             required
-            aria-label="Last Name:"
             aria-required="true"
+            validators={['required']}
+            errorMessages={['this field is required']}
           />
         </div>
         <div>
-          <TextField
+          <TextValidator
             name="phone"
             label="Phone: (Ex: 555-555-5555)"
             value={newContact.phone}
             onChange={handleChangeState}
             required
-            aria-label="Phone: (Ex: 555-555-5555)"
             aria-required="true"
+            validators={['required', 'matchRegexp:^(\\d{3}[- ]?){2}\\d{4}$']}
+            errorMessages={['this field is required', 'phone is not valid']}
           />
         </div>
         <div>
-          <TextField
+          <TextValidator
             name="email"
             label="Email:"
             value={newContact.email}
             onChange={handleChangeState}
             required
-            aria-label="Email:"
             aria-required="true"
+            validators={['required', 'isEmail']}
+            errorMessages={['this field is required', 'email is not valid']}
           />
         </div>
         <ThemeProvider theme={theme}>
@@ -107,6 +107,6 @@ export default function AddContactForm({ addContact }) {
           <Button variant="contained" type="submit">Add Contact</Button>
           </div>
         </ThemeProvider>
-    </Box>
+    </ValidatorForm>
   );
 }

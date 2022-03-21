@@ -1,10 +1,10 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
-import ContactsListingPage from './ContactsListingPage/ContactsListingPage';
-import AddContactPage from './AddContactPage/AddContactPage';
-import EditContactPage from './EditContactPage/EditContactPage';
-import NavBar from '../components/NavBar/NavBar';
+import ContactsListingPage from '../ContactsListingPage/ContactsListingPage';
+import AddContactPage from '../AddContactPage/AddContactPage';
+import EditContactPage from '../EditContactPage/EditContactPage';
+import NavBar from '../../components/NavBar/NavBar';
 
 export default function App() {
 

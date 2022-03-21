@@ -1,8 +1,9 @@
 import './EditContactForm.css';
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
-import { Button, Box, TextField } from '@mui/material';
+import { Button } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 export default function EditContactForm({ contact, editContact, deleteContact }) {
     const [updateContact, setUpdateContact] = useState({
@@ -51,51 +52,58 @@ export default function EditContactForm({ contact, editContact, deleteContact })
         setRemoveContact(removeContact);
         navigate('/');
     }
-
+    const formRef = useRef();
     return (
-        <Box
-            component="form"
+        <ValidatorForm
+            ref={formRef}
             className="edit-form"
-            sx={{
-                '& .MuiTextField-root': { m: 1, width: '35ch' },
-            }}
-            noValidate
-            autoComplete="off"
-        >
+            >
             <div>
-                <TextField
+                <TextValidator
                     name="first"
                     label="First Name:"
                     value={updateContact.first}
                     onChange={handleChangeState}
-                    aria-label="First Name:"
+                    required
+                    aria-required="true"
+                    validators={['required']}
+                    errorMessages={['this field is required']}
                 />
             </div>
             <div>
-                <TextField
+                <TextValidator
                     name="last"
                     label="Last Name:"
                     value={updateContact.last}
                     onChange={handleChangeState}
-                    aria-label="Last Name:"
+                    required
+                    aria-required="true"
+                    validators={['required']}
+                    errorMessages={['this field is required']}
                 />
             </div>
             <div>
-                <TextField
+                <TextValidator
                     name="phone"
                     label="Phone:"
                     value={updateContact.phone}
                     onChange={handleChangeState}
-                    aria-label="Phone:"
+                    required
+                    aria-required="true"
+                    validators={['required', 'matchRegexp:^(\\d{3}[- ]?){2}\\d{4}$']}
+                    errorMessages={['this field is required', 'phone is not valid']}
                 />
             </div>
             <div>
-                <TextField
+                <TextValidator
                     name="email"
                     label="Email:"
                     value={updateContact.email}
                     onChange={handleChangeState}
-                    aria-label="Email:"
+                    required
+                    aria-required="true"
+                    validators={['required', 'isEmail']}
+                    errorMessages={['this field is required', 'email is not valid']}
                 />
             </div>
             <ThemeProvider theme={theme}>
@@ -106,7 +114,7 @@ export default function EditContactForm({ contact, editContact, deleteContact })
                     <Button variant="contained" type="button" onClick={() => { if (window.confirm('Are you sure you wish to delete this contact?')) handleDeleteContact(contact) }}>Delete Contact</Button>
                 </div>
             </ThemeProvider>
-        </Box >
+        </ValidatorForm >
     );
 
 }
