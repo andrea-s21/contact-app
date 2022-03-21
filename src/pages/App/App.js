@@ -48,8 +48,8 @@ export default function App() {
     <>
       <NavBar />
       <Routes>
-        <Route path="/" element={<ContactsListingPage contacts={contacts} setContacts={setContacts} state={state} />} />
-        <Route path="/add" element={<AddContactPage contacts={contacts} addContact={addContact} />} />
+        <Route path="/" element={<ContactsListingPage contacts={contacts} state={state} />} />
+        <Route path="/add" element={<AddContactPage addContact={addContact} />} />
         <Route path="/edit/:contactName" element={<EditContactPage contacts={contacts} setContacts={setContacts} editContact={editContact} deleteContact={deleteContact} />} />
       </Routes>
     </>

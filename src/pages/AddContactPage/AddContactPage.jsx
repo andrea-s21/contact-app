@@ -4,13 +4,13 @@ import Container from '@mui/material/Container';
 import ReactDocumentTitle from 'react-document-title';
 
 
-export default function AddContactPage({ contacts, setContacts, setUpdateContact, addContact }) {
+export default function AddContactPage({ addContact }) {
 
     return (
         <ReactDocumentTitle title ="Add Contact">
         <Container>
             <h1>Add Contact</h1>
-            <AddContactForm contacts={contacts} setContacts={setContacts} setUpdateContact={setUpdateContact} addContact={addContact} />
+            <AddContactForm addContact={addContact} />
             <Link className="link-btn" to="/">Cancel</Link>
         </Container>
         </ReactDocumentTitle>
