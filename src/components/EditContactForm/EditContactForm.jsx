@@ -1,15 +1,29 @@
-import React, { useState } from "react";
+import './EditContactForm.css';
+import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { Button, Box, TextField } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-export default function EditContactForm({ contact, contacts, setContacts, editContact, deleteContact }) {
-    
+export default function EditContactForm({ contact, editContact, deleteContact }) {
     const [updateContact, setUpdateContact] = useState({
-        first: '',
-        last: '',
-        phone: '',
-        email: '',
+        first: `${contact.first}`,
+        last: `${contact.last}`,
+        phone: `${contact.phone}`,
+        email: `${contact.email}`
     });
     const [removeContact, setRemoveContact] = useState();
+
+    const theme = createTheme({
+        components: {
+            MuiButton: {
+                styleOverrides: {
+                    root: {
+                        backgroundColor: '#1639c3',
+                    },
+                },
+            },
+        },
+    });
 
     const navigate = useNavigate();
 
@@ -21,8 +35,7 @@ export default function EditContactForm({ contact, contacts, setContacts, editCo
         setUpdateContact(updatedContactInfo);
     }
 
-    function handleEditContact(evt) {
-        evt.preventDefault();
+    function handleEditContact() {
         editContact(updateContact);
         setUpdateContact({
             first: '',
@@ -31,55 +44,69 @@ export default function EditContactForm({ contact, contacts, setContacts, editCo
             email: '',
         });
         navigate('/');
-      }
+    }
 
-      function handleDeleteContact() {
+    function handleDeleteContact() {
         deleteContact(removeContact);
         setRemoveContact(removeContact);
         navigate('/');
-      }
+    }
 
     return (
-        <div>
-            <form onSubmit={handleEditContact}>
-                <label>First Name:</label>
-                <input
+        <Box
+            component="form"
+            className="edit-form"
+            sx={{
+                '& .MuiTextField-root': { m: 1, width: '35ch' },
+            }}
+            noValidate
+            autoComplete="off"
+        >
+            <div>
+                <TextField
                     name="first"
+                    label="First Name:"
                     value={updateContact.first}
                     onChange={handleChangeState}
-                    // defaultValue={preloadedValues}
-                    // placeholder='first'
-                    required
+                    aria-label="First Name:"
                 />
-                <label>Last Name:</label>
-                <input
+            </div>
+            <div>
+                <TextField
                     name="last"
+                    label="Last Name:"
                     value={updateContact.last}
                     onChange={handleChangeState}
-                    placeholder=''
-                    required
+                    aria-label="Last Name:"
                 />
-                <label>Phone:</label>
-                <input
+            </div>
+            <div>
+                <TextField
                     name="phone"
+                    label="Phone:"
                     value={updateContact.phone}
                     onChange={handleChangeState}
-                    placeholder=''
-                    required
-                    pattern=".{4,}"
+                    aria-label="Phone:"
                 />
-                <label>Email:</label>
-                <input
+            </div>
+            <div>
+                <TextField
                     name="email"
+                    label="Email:"
                     value={updateContact.email}
                     onChange={handleChangeState}
-                    placeholder=''
-                    required
+                    aria-label="Email:"
                 />
-                 <button type="submit">Update Contact</button>
-                 <button type="submit" onClick={handleDeleteContact}>Delete Contact</button>
-            </form>
-        </div>
+            </div>
+            <ThemeProvider theme={theme}>
+                <div>
+                    <Button variant="contained" type="button" onClick={() => { if (window.confirm('Are you sure you wish to update this contact?')) handleEditContact(contact) }}>Update Contact</Button>
+                </div>
+                <div>
+                    <Button variant="contained" type="button" onClick={() => { if (window.confirm('Are you sure you wish to delete this contact?')) handleDeleteContact(contact) }}>Delete Contact</Button>
+                </div>
+            </ThemeProvider>
+        </Box >
     );
 
 }
