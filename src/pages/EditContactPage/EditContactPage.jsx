@@ -1,16 +1,17 @@
 import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import React, { useEffect} from "react";
 import EditContactForm from "../../components/EditContactForm/EditContactForm";
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import ReactDocumentTitle from "react-document-title";
 
 export default function EditContactPage({ contacts, editContact, deleteContact }) {
     const { contactName } = useParams();
     let contact = contacts.find((c) => c.first === contactName);
-
+    useEffect(() => {
+        document.title = "Edit Contact";  
+      }, []);
     return (
-        <ReactDocumentTitle title="Edit Contact">
         <Container>
             <h1>Edit Contact</h1>
             <Typography variant="h6" component="div">
@@ -41,6 +42,5 @@ export default function EditContactPage({ contacts, editContact, deleteContact }
             <EditContactForm contact={contact} editContact={editContact} deleteContact={deleteContact} />
             <Link className="link-btn" to="/">Cancel</Link>
         </Container>
-        </ReactDocumentTitle>
     );
 }
